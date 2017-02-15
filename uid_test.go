@@ -28,7 +28,10 @@ func TestDecode(t *testing.T) {
 	uid := New()
 	encoded := uid.Encode()
 
-	got := Decode(encoded)
+	got, err := Decode(encoded)
+	if !assert.NoError(err) {
+		t.FailNow()
+	}
 
 	assert.Equal(uid, got)
 }
