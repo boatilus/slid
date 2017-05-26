@@ -1,4 +1,4 @@
-package uid
+package slid
 
 import (
 	"testing"
@@ -25,23 +25,23 @@ func TestEncode(t *testing.T) {
 func TestDecode(t *testing.T) {
 	assert := assert.New(t)
 
-	uid := New()
-	encoded := uid.Encode()
+	slid := New()
+	encoded := slid.Encode()
 
 	got, err := Decode(encoded)
 	if !assert.NoError(err) {
 		t.FailNow()
 	}
 
-	assert.Equal(uid, got)
+	assert.Equal(slid, got)
 }
 
 func TestTime(t *testing.T) {
 	assert := assert.New(t)
 
 	now := time.Now()
-	uid := NewFrom(now)
-	got := uid.Time()
+	slid := NewFrom(now)
+	got := slid.Time()
 
 	assert.Equal(now, got)
 }
@@ -53,10 +53,10 @@ func BenchmarkNew(b *testing.B) {
 }
 
 func BenchmarkEncode(b *testing.B) {
-	uid := New()
+	slid := New()
 
 	for n := 0; n < b.N; n++ {
-		uid.Encode()
+		slid.Encode()
 	}
 }
 
@@ -73,9 +73,9 @@ func TestHex(t *testing.T) {
 }
 
 func BenchmarkHex(b *testing.B) {
-	uid := New()
+	slid := New()
 
 	for n := 0; n < b.N; n++ {
-		uid.Hex()
+		slid.Hex()
 	}
 }
