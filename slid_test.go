@@ -7,19 +7,19 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestNew(t *testing.T) {
-	got := New()
-
-	t.Log(got)
-	t.Log(New())
-
-	counter = 0
+func init() {
+	// Overwrite time.Now() to always return a fixed time value.
+	now = func() time.Time {
+		t, _ := time.Parse(time.RFC3339, time.RFC3339)
+		return t
+	}
 }
 
-func TestEncode(t *testing.T) {
-	t.Log(New().Encode())
+func TestNew(t *testing.T) {
+	got := New()
+	want := []byte{161, 178, 3, 235, 61, 26, 0, 0, 1, 0, 0, 0}
 
-	counter = 0
+	assert.Equal(t, want, got.Encode())
 }
 
 func TestDecode(t *testing.T) {
@@ -43,7 +43,7 @@ func TestTime(t *testing.T) {
 	slid := NewFrom(now)
 	got := slid.Time()
 
-	assert.Equal(now, got)
+	assert.True(now.Equal(got))
 }
 
 func BenchmarkNew(b *testing.B) {
@@ -68,8 +68,9 @@ func BenchmarkNewEncode(b *testing.B) {
 
 func TestHex(t *testing.T) {
 	got := New().Hex()
+	want := "a1b203eb3d1a000004000000"
 
-	t.Log(got)
+	assert.Equal(t, want, got)
 }
 
 func BenchmarkHex(b *testing.B) {
