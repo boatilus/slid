@@ -3,7 +3,6 @@ module github.com/boatilus/slid
 go 1.17
 
 require (
-	bou.ke/monkey v1.0.2
 	github.com/stretchr/testify v1.7.0
 )
 
